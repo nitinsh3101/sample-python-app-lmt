@@ -1,4 +1,4 @@
-# sample-pyhton-app-lmt (Log-Metrics-Traces)
+# sample-python-app-lmt (Log-Metrics-Traces)
 
 ## App Endpoint
 http://localhost:5000/test
