@@ -1,4 +1,3 @@
 flask
 appmetrics
-make_wsgi_app
-prometheus_client
+
