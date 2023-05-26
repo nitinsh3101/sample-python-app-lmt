@@ -4,8 +4,9 @@ import random
 from flask import Flask, jsonify, request, json, current_app, g as app_ctx
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
-
+from prometheus_client import Counter
 from appmetrics import metrics
+from prometheus_client import Summary
 
                                      
 # App name and URL
@@ -34,6 +35,8 @@ logger.addHandler(file_handler)
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     '/metrics': make_wsgi_app()
 })
+s = Summary('request_latency_seconds', 'Description of summary')
+c = Counter('my_requests_total', 'HTTP Failures', ['method', 'endpoint'])
 
 # Enable metrics
 metrics.new_histogram("test-histogram")
@@ -71,7 +74,12 @@ def example():
 
     logger.info(f'Received API request from client {client_ip}')
 
+    # Custom Metrics
 
+
+    s.observe(1)    # Observe 4.7 (seconds in this case)
+    c.labels('get', '/test').inc()
+    c.labels('post', '/submit').inc()
     # Business logic
     data = {
         'message': 'This is sample application to use for Logs and Metrics'
