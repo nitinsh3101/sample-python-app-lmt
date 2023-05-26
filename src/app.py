@@ -2,6 +2,8 @@ import logging
 import time
 import random
 from flask import Flask, jsonify, request, json, current_app, g as app_ctx
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
 
 from appmetrics import metrics
 
@@ -28,6 +30,10 @@ formatter = logging.Formatter('%(asctime)s; %(name)s - %(levelname)s - %(message
 file_handler = logging.FileHandler('app.log')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
+
+app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
+    '/metrics': make_wsgi_app()
+})
 
 # Enable metrics
 metrics.new_histogram("test-histogram")
