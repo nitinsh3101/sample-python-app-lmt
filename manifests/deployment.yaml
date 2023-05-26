@@ -1,0 +1,54 @@
+# write kubernetes manifest file for deployment and service  
+# Path: sample-python-app-lmt\k8s\deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-python-app-lmt
+  labels:
+    app: sample-python-app-lmt
+spec:
+
+    replicas: 1
+    selector:
+        matchLabels:
+          app: sample-python-app-lmt
+    template:
+        metadata:
+          labels:
+              app: sample-python-app-lmt
+        spec:
+          containers:
+            - name: sample-python-app-lmt
+              image: ghcr.io/cybage-devops/sample-python-app-lmt:latest
+              imagePullPolicy: Always
+              ports:
+                - containerPort: 5000
+              env:
+                - name: LOG_LEVEL
+                  value: "INFO"
+                - name: LOG_FILE
+                  value: "/var/log/app.log"
+              volumeMounts:
+                - name: log-volume
+                  mountPath: /var/log
+          imagePullSecrets:
+            - name: dockerconfigjson-github-com
+          volumes:
+            - name: log-volume
+              emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-python-app-lmt
+spec:
+
+    selector:
+        app: sample-python-app-lmt
+    ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+    type: LoadBalancer
+

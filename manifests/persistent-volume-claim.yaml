@@ -1,0 +1,13 @@
+# write kubernetes manifest file for persistent volume claim
+# Path: sample-python-app-lmt\k8s\persistent-volume-claim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sample-python-app-lmt
+spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+          storage: 1Gi
+      storageClassName: manual

@@ -1,0 +1,9 @@
+# write kubernetes manifest file for configmap
+# Path: sample-python-app-lmt\k8s\configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-python-app-lmt
+data:
+    LOG_LEVEL: "INFO"
+    LOG_FILE: "/var/log/app.log"
