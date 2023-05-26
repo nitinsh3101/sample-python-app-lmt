@@ -58,7 +58,13 @@ def example():
     # pyactuator.increment_counter('api.example.calls')
     time.sleep(random.randint(0,2))
     # Log a message using Python logging
-    logger.info('Received API request')
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        client_ip = request.environ['REMOTE_ADDR']
+    else:
+        client_ip = request.environ['HTTP_X_FORWARDED_FOR']
+
+    logger.info(f'Received API request from client {client_ip}')
+
 
     # Business logic
     data = {
