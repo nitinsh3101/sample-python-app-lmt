@@ -25,5 +25,5 @@ jobs:
     - name: Build the hello-docker Docker image
       run: |
              docker build . --file Dockerfile --tag sample-python-app-lmt:latest
-             docker tag ghcr.io/cybage-devops/sample-python-app-lmt:latest
+             docker tag sample-python-app-lmt:latest ghcr.io/cybage-devops/sample-python-app-lmt:latest
              docker push ghcr.io/cybage-devops/sample-python-app-lmt:latest
