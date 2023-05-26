@@ -82,4 +82,4 @@ def example():
 
 from appmetrics.wsgi import AppMetricsMiddleware
 app.wsgi_app = AppMetricsMiddleware(app.wsgi_app)
-app.run(debug=True)
+app.run(host='0.0.0.0', debug=True)
