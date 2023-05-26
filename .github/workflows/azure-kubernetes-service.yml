@@ -8,7 +8,7 @@ env:
   CONTAINER_NAME: "your-container-name"
   RESOURCE_GROUP: "demo_group"
   CLUSTER_NAME: "app"
-  DEPLOYMENT_MANIFEST_PATH: "your-deployment-manifest-path"
+  DEPLOYMENT_MANIFEST_PATH: "manifests"
 permissions:
   id-token: write
   contents: read
