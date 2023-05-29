@@ -59,6 +59,7 @@ def example():
     s.observe(1)    # Observe 4.7 (seconds in this case)
     c.labels('get', '/test').inc()
 
+    time.sleep(5)
     # Business logic
     data = {
         'message': 'This is sample application to use for Logs and Metrics'
