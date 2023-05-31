@@ -27,10 +27,10 @@ spec:
                 - name: LOG_LEVEL
                   value: "INFO"
                 - name: LOG_FILE
-                  value: "/var/log/app.log"
+                  value: "/src/app.log"
               volumeMounts:
                 - name: log-volume
-                  mountPath: /var/log
+                  mountPath: /src
               resources:
                 requests:
                   memory: "128Mi"
