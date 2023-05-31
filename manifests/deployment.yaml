@@ -30,7 +30,7 @@ spec:
                   value: "app.log"
               volumeMounts:
                 - name: log-volume
-                  mountPat: /src
+                  mountPath: /src
               resources:
                 requests:
                   memory: "128Mi"
