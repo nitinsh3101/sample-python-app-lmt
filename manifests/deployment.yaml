@@ -16,6 +16,7 @@ spec:
         metadata:
           labels:
               app: sample-python-app-lmt
+              logFileName: app
         spec:
           containers:
             - name: sample-python-app-lmt
