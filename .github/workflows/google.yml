@@ -34,7 +34,7 @@ jobs:
       with:
         token_format: 'access_token'
         workload_identity_provider: 'projects/1099329336616/locations/global/workloadIdentityPools/amittechnet-pool/providers/my-provider'
-		service_account: 'amittechnet@absolute-hub-387905.iam.gserviceaccount.com'
+        service_account: 'amittechnet@absolute-hub-387905.iam.gserviceaccount.com'
 		
 
     # Alternative option - authentication via credentials json
