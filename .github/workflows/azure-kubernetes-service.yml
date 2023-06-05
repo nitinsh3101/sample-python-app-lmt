@@ -56,4 +56,4 @@ jobs:
           manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
           images: |
             #${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-            ghcr.io/cybage-devops/sample-python-app-lmt:latest
+            ghcr.io/cybage-devops/sample-python-app-lmt:feature:1.0

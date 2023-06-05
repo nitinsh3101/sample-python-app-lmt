@@ -1,6 +1,6 @@
 import logging
 import time
-import random
+import random, os
 from flask import Flask, jsonify, request, json, current_app, g as app_ctx
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
@@ -62,7 +62,8 @@ def example():
     time.sleep(5)
     # Business logic
     data = {
-        'message': 'This is sample application to use for Logs and Metrics'
+        'message': 'This is sample application to use for Logs and Metrics',
+        'MY_POD_NAME' : os.getenv('MY_POD_NAME')
     }
     logger.info(f'Received API request{data}')
     return jsonify(data)
