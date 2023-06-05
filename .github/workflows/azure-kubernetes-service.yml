@@ -47,7 +47,7 @@ jobs:
           admin: 'false'
           use-kubelogin: 'true'
       - name: Delete Deployment
-        run: kubectl delete deployment sample-python-app-lmt
+        run: kubectl delete deployment sample-python-app-lmt || true
       # Deploys application based on given manifest file
       - name: Deploys application
         uses: Azure/k8s-deploy@v4
