@@ -28,14 +28,24 @@ jobs:
              docker tag sample-python-app-lmt:latest ghcr.io/cybage-devops/sample-python-app-lmt:latest
              docker push ghcr.io/cybage-devops/sample-python-app-lmt:latest
 
-    - name: qryn-logs
-      if: failure()
-      uses: metrico/qryn-loki-logs@v1
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        endpoint: ${{ secrets.LOGQL_ENDPOINT }}
-        username: ${{ secrets.LOGQL_USER }}
-        password: ${{ secrets.LOGQL_PASS }}
-        job-names: build
+- name: loki-action
+  # You may pin to the exact commit or the version.
+  # uses: metrico/loki-action@51bb4d201cbd710b19773d7457d074f960b6bf3b
+  uses: metrico/loki-action@v2
+  with:
+    # GitHub token to access repo data
+    repo-token: 
+    # Comma separated names of the jobs to collect logs from, defaults to all jobs
+    job-names: build
+    # logql API push endpoint
+    endpoint: http://54.91.131.230:3000/
+    # comma separated values pointing to logql endpoints
+    #addresses: # optional
+    # logql api username
+    username: admin
+    # logql api password
+    password: ${{ secrets.LOGQL_PASS }}
+    # optional partition id
+  #  partition: # optional
 
 
