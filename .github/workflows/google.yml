@@ -34,8 +34,8 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
         token_format: 'access_token'
-        workload_identity_provider: 'projects/1099329336616/locations/global/workloadIdentityPools/amittechnet-pool/providers/my-provider'
-        service_account: 'amittechnet@absolute-hub-387905.iam.gserviceaccount.com'
+        workload_identity_provider: 'projects/1099329336616/locations/global/workloadIdentityPools/gh-deploy-pool/providers/gh-provider'
+        service_account: 'gh-deploy-sa@absolute-hub-387905.iam.gserviceaccount.com'
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
