@@ -21,10 +21,11 @@
                   port:
                     number: 5000
               path: /metrics
-             - pathType: Prefix
+            - pathType: Prefix
               backend:
                 service:
                   name: sample-java-app-lmt
                   port:
                     number: 8085
               path: /
+
