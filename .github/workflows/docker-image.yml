@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "feature" ]
 
 jobs:
 
@@ -27,3 +27,15 @@ jobs:
              docker build . --file Dockerfile --tag sample-python-app-lmt:latest
              docker tag sample-python-app-lmt:latest ghcr.io/cybage-devops/sample-python-app-lmt:latest
              docker push ghcr.io/cybage-devops/sample-python-app-lmt:latest
+
+    - name: qryn-logs
+      if: failure()
+      uses: metrico/qryn-loki-logs@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        endpoint: ${{ secrets.LOGQL_ENDPOINT }}
+        username: ${{ secrets.LOGQL_USER }}
+        password: ${{ secrets.LOGQL_PASS }}
+        job-names: build
+
+
