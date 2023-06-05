@@ -51,6 +51,18 @@ def logging_after(response):
     response.headers['MY_POD_IP'] = os.environ.get('MY_POD_IP')
     response.headers['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
     
+     # Add environment variables to the response data
+    data['LOG_LEVEL'] = os.environ.get('LOG_LEVEL')
+    data['LOG_FILE'] = os.environ.get('LOG_FILE')
+    data['MY_NODE_NAME'] = os.environ.get('MY_NODE_NAME')
+    data['MY_POD_NAME'] = os.environ.get('MY_POD_NAME')
+    data['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
+    data['MY_POD_IP'] = os.environ.get('MY_POD_IP')
+    data['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
+
+    # Update the response with the modified data
+    response.set_data(jsonify(data).data)
+    
     return response
 
 @app.route('/test', methods=['GET'])
