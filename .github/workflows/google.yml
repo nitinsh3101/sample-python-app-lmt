@@ -5,13 +5,14 @@ on:
     branches: [ "amitpawarcbg-patch-2" ]
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+#  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  PROJECT_ID: absolute-hub-387905
   GAR_LOCATION: asia-south1 # TODO: update region of the Artifact Registry
   GKE_CLUSTER: tempo    # TODO: update to cluster name
   GKE_ZONE: asia-south1-b   # TODO: update to cluster zone
   DEPLOYMENT_NAME: sample-python-app-lmt # TODO: update to deployment name
-  REPOSITORY: samples # TODO: update to Artifact Registry docker repository
-  IMAGE: static-site
+#  REPOSITORY: samples # TODO: update to Artifact Registry docker repository
+#  IMAGE: static-site
 
 jobs:
   setup-build-publish-deploy:
