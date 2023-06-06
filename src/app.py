@@ -1,6 +1,6 @@
 import logging
 import time
-import random
+import random, os
 from flask import Flask, jsonify, request, json, current_app, g as app_ctx
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
@@ -36,11 +36,33 @@ def logging_before():
 
 @app.after_request
 def logging_after(response):
+    data = response.get_json()
     # Get total time in milliseconds
     total_time = time.perf_counter() - app_ctx.start_time
     time_in_ms = int(total_time * 1000)
     # Log the time taken for the endpoint 
     logger.info('Prcessing Time : %s ms %s %s %s', time_in_ms, request.method, request.path, dict(request.args))
+    # Add environment variables as response headers
+    response.headers['LOG_LEVEL'] = os.environ.get('LOG_LEVEL')
+    response.headers['LOG_FILE'] = os.environ.get('LOG_FILE')
+    response.headers['MY_NODE_NAME'] = os.environ.get('MY_NODE_NAME')
+    response.headers['MY_POD_NAME'] = os.environ.get('MY_POD_NAME')
+    response.headers['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
+    response.headers['MY_POD_IP'] = os.environ.get('MY_POD_IP')
+    response.headers['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
+    
+     # Add environment variables to the response data
+    data['LOG_LEVEL'] = os.environ.get('LOG_LEVEL')
+    data['LOG_FILE'] = os.environ.get('LOG_FILE')
+    data['MY_NODE_NAME'] = os.environ.get('MY_NODE_NAME')
+    data['MY_POD_NAME'] = os.environ.get('MY_POD_NAME')
+    data['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
+    data['MY_POD_IP'] = os.environ.get('MY_POD_IP')
+    data['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
+
+    # Update the response with the modified data
+    response.set_data(jsonify(data).data)
+    
     return response
 
 @app.route('/test', methods=['GET'])
@@ -62,7 +84,8 @@ def example():
     time.sleep(5)
     # Business logic
     data = {
-        'message': 'This is sample application to use for Logs and Metrics'
+        'message': 'This is sample application to use for Logs and Metrics',
+        'MY_POD_NAME' : os.getenv('MY_POD_NAME')
     }
     logger.info(f'Received API request{data}')
     return jsonify(data)
