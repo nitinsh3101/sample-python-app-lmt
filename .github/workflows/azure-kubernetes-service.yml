@@ -46,8 +46,8 @@ jobs:
           cluster-name: ${{ env.CLUSTER_NAME }}
           admin: 'false'
           use-kubelogin: 'true'
- #     - name: Azure login
- #       run: kubectl delete deployment sample-python-app-lmt
+      - name: Delete Deployment
+        run: kubectl delete deployment sample-python-app-lmt || true
       # Deploys application based on given manifest file
       - name: Deploys application
         uses: Azure/k8s-deploy@v4
@@ -57,3 +57,5 @@ jobs:
           images: |
             #${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
             ghcr.io/cybage-devops/sample-python-app-lmt:latest
+      - name: Deploy ingress
+        run: cd manifests && kubectl apply -f ingress.yaml
