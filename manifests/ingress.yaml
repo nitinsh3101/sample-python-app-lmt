@@ -23,6 +23,7 @@
                   name: sample-python-app-lmt
                   port:
                     number: 5000
+              path: /metrics        
             - pathType: Prefix
               backend:
                 service:
