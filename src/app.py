@@ -42,6 +42,14 @@ def logging_after(response):
     time_in_ms = int(total_time * 1000)
     # Log the time taken for the endpoint 
     logger.info('Prcessing Time : %s ms %s %s %s', time_in_ms, request.method, request.path, dict(request.args))
+    LOG_LEVEL=os.environ.get('LOG_LEVEL')
+    LOG_FILE=os.environ.get('LOG_FILE')
+    NODE_NAME=os.environ.get('MY_NODE_NAME')
+    POD_NAME=os.environ.get('MY_POD_NAME')
+    POD_NAMESPACE=os.environ.get('MY_POD_NAMESPACE')
+    POD_IP=os.environ.get('MY_POD_IP')
+    SERVICE_ACCOUNT=os.environ.get('MY_POD_SERVICE_ACCOUNT')
+    
     # Add environment variables as response headers
     response.headers['LOG_LEVEL'] = os.environ.get('LOG_LEVEL')
     response.headers['LOG_FILE'] = os.environ.get('LOG_FILE')
@@ -59,7 +67,13 @@ def logging_after(response):
     data['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
     data['MY_POD_IP'] = os.environ.get('MY_POD_IP')
     data['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
-
+    
+    logger.info(f'NODE_NAME: {NODE_NAME}')
+    logger.info(f'POD_NAME: {POD_NAME}')
+    logger.info(f'POD_NAMESPACE: {POD_NAMESPACE}')
+    logger.info(f'POD_IP: {POD_IP}')
+    logger.info(f'SERVICE_ACCOUNT: {SERVICE_ACCOUNT}')
+   
     # Update the response with the modified data
     response.set_data(jsonify(data).data)
     
