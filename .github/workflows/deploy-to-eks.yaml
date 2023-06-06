@@ -1,0 +1,36 @@
+name: Deploy to Amazon EKS
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [ "feature-eks-testing" ]
+
+env:
+  AWS_REGION: us-east-a                   # set this to your preferred AWS region, e.g. us-west-1
+  EKS_CLUSTER: webapp                 # set this to your Amazon ECS cluster name
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume:  ${{ secrets.EKS_ASSUME_ROLE }}
+        role-session-name: samplerolesession
+        aws-region: us-east-1
+
+    - name: Deploy to EKS Cluster
+      run: |
+            aws eks update-kubeconfig —cluster-name ${{ env.EKS_CLUSTER }}
+            kubectl get pods
