@@ -117,7 +117,19 @@ def error():
     error_counter.inc()
     logger.info(f'Received API request{data}')
     return jsonify(data)
+@app.route('/health', methods=['GET'])
+def health_check():
 
+    # Custom Metrics
+    s.observe(1)    # Observe 4.7 (seconds in this case)
+    c.labels('get', '/health').inc()
+    # Business logic
+    data = {
+        'message': 'Application is Up'
+    }
+    error_counter.inc()
+    logger.info(f'Received API request{data}')
+    return jsonify(data)
 # write code to handle 404 errors 
 @app.errorhandler(404)
 def not_found(e):
