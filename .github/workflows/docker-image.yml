@@ -26,6 +26,10 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the hello-docker Docker image
       run: |
-             docker build . --file Dockerfile --tag sample-python-app-lmt:feature1.0
-             docker tag sample-python-app-lmt:feature1.0 ghcr.io/cybage-devops/sample-python-app-lmt:feature1.0
-             docker push ghcr.io/cybage-devops/sample-python-app-lmt:feature1.0
+             docker build . --file Dockerfile --tag sample-python-app-lmt:latest
+             docker tag sample-python-app-lmt:latest ghcr.io/cybage-devops/sample-python-app-lmt:latest
+             docker push ghcr.io/cybage-devops/sample-python-app-lmt:latest
+
+
+
+
