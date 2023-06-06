@@ -37,6 +37,10 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
     - name: Deploy to EKS Cluster
       run: |
-            aws s3 ls
+            cd manifests
             aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region us-east-1
+            kubectl get pods
+            kubectl delete -f deployment.yaml || true
+            kubectl apply -f deployment.yaml
+            kubectl apply -f ingress.yaml
             kubectl get pods

@@ -1,4 +1,4 @@
-import logging
+import logging, requests
 import time
 import random, os
 from flask import Flask, jsonify, request, json, current_app, g as app_ctx

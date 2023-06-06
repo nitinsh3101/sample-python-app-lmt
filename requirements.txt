@@ -1,3 +1,4 @@
 flask
 appmetrics
 prometheus_client
+requests
