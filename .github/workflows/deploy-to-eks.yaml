@@ -32,5 +32,5 @@ jobs:
 
     - name: Deploy to EKS Cluster
       run: |
-            aws eks update-kubeconfig —cluster-name ${{ env.EKS_CLUSTER }}
+            aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region us-east-1
             kubectl get pods
