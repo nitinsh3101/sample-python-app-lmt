@@ -1,8 +1,9 @@
 name: Deploy to Amazon EKS
 
 on:
-  push:
-    branches: [ "feature-eks-testing" ]
+  workflow_dispatch:
+  # push:
+  #   branches: [ "feature-eks-testing" ]
 
 env:
   AWS_REGION: us-east-a                   # set this to your preferred AWS region, e.g. us-west-1
