@@ -122,13 +122,14 @@ def health_check():
 
     # Custom Metrics
     s.observe(1)    # Observe 4.7 (seconds in this case)
-    c.labels('get', '/health').inc()
-    # Business logic
-    data = {
-        'message': 'Application is Up'
-    }
-    error_counter.inc()
+    resp = requests.get("/actuator/health")
+    spring_app_status=resp.json()
+    logger.info(f'Response returned : {spring_app_status}')
+    data = {}
+    data['Python Application status is'] = 'Up'
+    data['Spring Application status is'] = spring_app_status
     logger.info(f'Received API request{data}')
+
     return jsonify(data)
 # write code to handle 404 errors 
 @app.errorhandler(404)
