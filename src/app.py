@@ -1,6 +1,7 @@
 import logging, requests
 import time
 import random, os
+from flask_restful import Api
 from flask import Flask, jsonify, request, json, current_app, g as app_ctx
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
@@ -8,17 +9,17 @@ from prometheus_client import Counter
 from appmetrics import metrics
 from prometheus_client import Summary
 from prometheus_client import Gauge
+from resources import UserList, UserAdd, UserUpdate, UserDelete
+from logging_config import logger
+from database import db, db_url
+from flask_sqlalchemy import SQLAlchemy
 
+app_name = 'Python User App for LMT'
+app = Flask('Python User App for LMT')
+api = Api(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url
 
-app_name = 'Python Sample App'
-app = Flask('Python Sample App')
-
-logger = logging.getLogger(app_name)
-logger.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s; %(name)s - %(levelname)s - %(message)s')
-file_handler = logging.FileHandler('app.log')
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
+db.init_app(app)
 
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     '/metrics': make_wsgi_app()
@@ -58,15 +59,15 @@ def logging_after(response):
     response.headers['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
     response.headers['MY_POD_IP'] = os.environ.get('MY_POD_IP')
     response.headers['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
-    
+    add_data = {}
      # Add environment variables to the response data
-    data['LOG_LEVEL'] = os.environ.get('LOG_LEVEL')
-    data['LOG_FILE'] = os.environ.get('LOG_FILE')
-    data['MY_NODE_NAME'] = os.environ.get('MY_NODE_NAME')
-    data['MY_POD_NAME'] = os.environ.get('MY_POD_NAME')
-    data['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
-    data['MY_POD_IP'] = os.environ.get('MY_POD_IP')
-    data['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
+    add_data['LOG_LEVEL'] = os.environ.get('LOG_LEVEL')
+    add_data['LOG_FILE'] = os.environ.get('LOG_FILE')
+    add_data['MY_NODE_NAME'] = os.environ.get('MY_NODE_NAME')
+    add_data['MY_POD_NAME'] = os.environ.get('MY_POD_NAME')
+    add_data['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
+    add_data['MY_POD_IP'] = os.environ.get('MY_POD_IP')
+    add_data['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
     
     logger.info(f'NODE_NAME: {NODE_NAME}')
     logger.info(f'POD_NAME: {POD_NAME}')
@@ -82,7 +83,6 @@ def logging_after(response):
 @app.route('/test', methods=['GET'])
 def example():
 
-    time.sleep(random.randint(0,2))
     # Log a message using Python logging
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
         client_ip = request.environ['REMOTE_ADDR']
@@ -167,6 +167,10 @@ def unhandled_exception(e):
     logger.error(f'Error  {e}')
     return jsonify(error=str(e)), 500
 
+api.add_resource(UserList, '/users')
+api.add_resource(UserAdd, '/add_user')
+api.add_resource(UserUpdate, '/update_user')
+api.add_resource(UserDelete, '/delete_user')
 
 from appmetrics.wsgi import AppMetricsMiddleware
 app.wsgi_app = AppMetricsMiddleware(app.wsgi_app)
