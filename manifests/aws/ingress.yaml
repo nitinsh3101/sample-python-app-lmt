@@ -41,14 +41,21 @@
             - pathType: Prefix
               backend:
                 service:
-                  name: sample-java-app-lmt
+                  name: sample-python-app-lmt
                   port:
-                    number: 8085
+                    number: 5000
+              path: /user              
+            - pathType: Prefix
+              backend:
+                service:
+                  name: grafana
+                  port:
+                    number: 80
               path: /
             - pathType: Prefix
               backend:
                 service:
-                  name: sample-python-app-lmt
+                  name: grafana
                   port:
-                    number: 5000
-              path: /user                
+                    number: 80
+              path: /grafana

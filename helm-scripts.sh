@@ -16,5 +16,5 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n ku
 --set serviceAccount.name=aws-load-balancer-controller
 helm repo add grafana https://grafana.github.io/helm-charts && helm repo update 
 helm install loki grafana/loki-stack
-helm install grafana grafana/loki-stack
+helm install grafana grafana/grafana
 helm install prometheus grafana/loki-stack
