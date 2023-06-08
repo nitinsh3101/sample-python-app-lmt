@@ -1,4 +1,8 @@
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
 data:
   mapRoles: |
     - groups:
@@ -7,7 +11,7 @@ data:
       rolearn: arn:aws:iam::465340416678:role/eks-node-group
       username: system:node:{{EC2PrivateDNSName}}
     - groups:
-      - system:master  
+      - system:masters  
       rolearn: arn:aws:iam::465340416678:role/OIDCRole 
       username: oidc-provider
   mapUsers: |
@@ -15,10 +19,3 @@ data:
       username: tanaji
       groups:
         - system:masters
-kind: ConfigMap
-metadata:
-  creationTimestamp: "2023-06-08T05:15:08Z"
-  name: aws-auth
-  namespace: kube-system
-  resourceVersion: "962"
-  uid: 50f8a309-bc73-4160-8c03-a2d180eca128
