@@ -37,7 +37,7 @@
                   name: sample-java-app-lmt
                   port:
                     number: 8085
-              path: /actuator
+              path: /actuator/health
             - pathType: Prefix
               backend:
                 service:
@@ -45,3 +45,10 @@
                   port:
                     number: 8085
               path: /
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-python-app-lmt
+                  port:
+                    number: 5000
+              path: /user                
