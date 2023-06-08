@@ -6,7 +6,7 @@ ma = Marshmallow()
 class UsersSchema(ma.Schema):
 	class Meta:
 		# Fields to expose
-		fields = ('designation', 'email', 'first_name', 'is_admin', 'last_name', 'middle_name', 'oidc_id', 'phone_number', 'previous_exp')
+		fields = ('id','designation', 'email', 'first_name', 'is_admin', 'last_name', 'middle_name', 'oidc_id', 'phone_number', 'previous_exp')
 
 user_schema = UsersSchema()
 users_schema = UsersSchema(many=True)

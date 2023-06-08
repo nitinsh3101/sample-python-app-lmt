@@ -16,6 +16,7 @@ class Users(db.Model):
 	previous_exp = db.Column(db.String(120), unique=False)
 
 	def __init__(self, designation, email, first_name, is_admin, last_name, middle_name, oidc_id, phone_number, previous_exp):
+		self.id = id
 		self.designation = designation
 		self.email = email
 		self.first_name = first_name
