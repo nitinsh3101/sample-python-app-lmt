@@ -73,13 +73,13 @@ class UserDetail(Resource):
 class UserDelete(Resource):
 	def delete(self, id):
 		self.logger = logger
-		json_data = request.get_json(force=True)
-		self.logger.info(f"Delete User json_data : {json_data}")
-		if not json_data:
+		# json_data = request.get_json(force=True)
+		user = Users.query.get(id)
+		self.logger.info(f"Delete User : {user}")
+		if not user:
 			return {'message': 'No input data provided'}, 400
 		# Validate and deserialize input
-		data = user_schema.load(json_data)
-		user = Users.query.get(id).delete()
+		db.session.delete(user)
 		db.session.commit()
 		result = user_schema.dump(user)
 		logger.info(f"Delete User result : {result}")
