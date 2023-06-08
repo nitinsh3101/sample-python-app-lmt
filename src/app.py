@@ -163,8 +163,8 @@ def unhandled_exception(e):
 
 api.add_resource(UserList, '/user/list')
 api.add_resource(UserAdd, '/user/add')
-api.add_resource(UserUpdate, '/user/update/{id}')
-api.add_resource(UserDelete, '/user/delete/{id}')
+api.add_resource(UserUpdate, '/user/update/<int:id>')
+api.add_resource(UserDelete, '/user/delete/<int:id>')
 api.add_resource(HealthCheck, '/health')
 
 from appmetrics.wsgi import AppMetricsMiddleware

@@ -43,7 +43,6 @@ class UserAdd(Resource):
 	def post(self):
 		self.logger = logger
 		logger.info(f'Received User Create Request ')
-
 		logger.info(f'Received User Create Request with data {request.data}')
 		# json_data = request.get_json(force=True)
 		json_data = request.get_json(force=True)
@@ -83,7 +82,8 @@ class UserDelete(Resource):
 		db.session.commit()
 		result = user_schema.dump(user)
 		logger.info(f"Delete User result : {result}")
-		return { "status": 'success', 'data': result}, 204
+		data={'message': 'User Deleted Successfully', 'ok': True}
+		return jsonify(data)
 	
 class HealthCheck(Resource):
 	def get(self):
