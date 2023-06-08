@@ -9,10 +9,11 @@ from prometheus_client import Counter
 from appmetrics import metrics
 from prometheus_client import Summary
 from prometheus_client import Gauge
-from resources import UserList, UserAdd, UserUpdate, UserDelete
+from resources import UserList, UserAdd, UserUpdate, UserDelete, HealthCheck
 from logging_config import logger
 from database import db, db_url
 from flask_sqlalchemy import SQLAlchemy
+
 
 app_name = 'Python User App for LMT'
 app = Flask('Python User App for LMT')
@@ -117,19 +118,6 @@ def error():
     error_counter.inc()
     logger.info(f'Received API request{data}')
     return jsonify(data)
-@app.route('/health', methods=['GET'])
-def health_check():
-
-    # Custom Metrics
-    s.observe(1)    # Observe 4.7 (seconds in this case)
-    resp = requests.get("/actuator/health")
-    spring_app_status=resp.json()
-    logger.info(f'Response returned : {spring_app_status}')
-    data = {}
-    data['Python Application status is'] = 'Up'
-    data['Spring Application status is'] = spring_app_status
-    logger.info(f'Received API request{data}')
-
     return jsonify(data)
 # write code to handle 404 errors 
 @app.errorhandler(404)
@@ -167,10 +155,11 @@ def unhandled_exception(e):
     logger.error(f'Error  {e}')
     return jsonify(error=str(e)), 500
 
-api.add_resource(UserList, '/users')
-api.add_resource(UserAdd, '/add_user')
-api.add_resource(UserUpdate, '/update_user')
-api.add_resource(UserDelete, '/delete_user')
+api.add_resource(UserList, '/user/list')
+api.add_resource(UserAdd, '/user/add')
+api.add_resource(UserUpdate, '/user/update/{id}')
+api.add_resource(UserDelete, '/user/delete/{id}')
+api.add_resource(HealthCheck, '/health')
 
 from appmetrics.wsgi import AppMetricsMiddleware
 app.wsgi_app = AppMetricsMiddleware(app.wsgi_app)

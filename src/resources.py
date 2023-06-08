@@ -4,7 +4,7 @@ from models import db, Users
 from schemas import user_schema, users_schema
 from logging_config import logger
 from flask import Flask, jsonify, request
-
+import requests
 class UserList(Resource):
 	def get(self):
 		users = Users.query.all()
@@ -69,7 +69,7 @@ class UserDetail(Resource):
 class UserDelete(Resource):
 	def delete(self, id):
 		json_data = request.get_json(force=True)
-		logging.info(f"Delete User json_data : {json_data}")
+		logger.info(f"Delete User json_data : {json_data}")
 		if not json_data:
 			return {'message': 'No input data provided'}, 400
 		# Validate and deserialize input
@@ -77,5 +77,16 @@ class UserDelete(Resource):
 		user = Users.query.get(id).delete()
 		db.session.commit()
 		result = user_schema.dump(user)
-		logging.info(f"Delete User result : {result}")
+		logger.info(f"Delete User result : {result}")
 		return { "status": 'success', 'data': result}, 204
+	
+class HealthCheck(Resource):
+	def get(self):
+		try:
+			r = requests.get('http://localhost:5000/user/list')
+			if r.status_code == 200:
+				return {'status': 'up'}, 200
+			else:
+				return {'status': 'down'}, 500
+		except:
+			return {'status': 'down'}, 500
