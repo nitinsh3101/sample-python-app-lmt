@@ -42,5 +42,5 @@ jobs:
             kubectl get pods
             kubectl delete -f deployment.yaml || true
             kubectl apply -f deployment.yaml
-            kubectl apply -f ingress.yaml
+            kubectl apply -f aws/ingress.yaml
             kubectl get pods
