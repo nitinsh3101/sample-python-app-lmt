@@ -7,11 +7,14 @@ from flask import Flask, jsonify, request
 import requests
 class UserList(Resource):
 	def get(self):
+		self.logger = logger
 		users = Users.query.all()
+		logger.info(f'Received User list Request ')
 		# roll_counter.add(len(users))
 		return users_schema.dump(users)
 class UserUpdate(Resource):
 	def put(self, id):
+		self.logger = logger
 		user = Users.query.get(id)
 		designation = request.json['designation']
 		email = request.json['email']
@@ -38,6 +41,7 @@ class UserUpdate(Resource):
 
 class UserAdd(Resource):
 	def post(self):
+		self.logger = logger
 		logger.info(f'Received User Create Request ')
 
 		logger.info(f'Received User Create Request with data {request.data}')
@@ -68,8 +72,9 @@ class UserDetail(Resource):
 		return user_schema.dump(user)
 class UserDelete(Resource):
 	def delete(self, id):
+		self.logger = logger
 		json_data = request.get_json(force=True)
-		logger.info(f"Delete User json_data : {json_data}")
+		self.logger.info(f"Delete User json_data : {json_data}")
 		if not json_data:
 			return {'message': 'No input data provided'}, 400
 		# Validate and deserialize input

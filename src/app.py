@@ -1,18 +1,15 @@
-import logging, requests
-import time
-import random, os
+import time, json
+import  os
 from flask_restful import Api
-from flask import Flask, jsonify, request, json, current_app, g as app_ctx
+from flask import Flask, jsonify, request, g as app_ctx
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from prometheus_client import make_wsgi_app
 from prometheus_client import Counter
-from appmetrics import metrics
 from prometheus_client import Summary
 from prometheus_client import Gauge
 from resources import UserList, UserAdd, UserUpdate, UserDelete, HealthCheck
 from logging_config import logger
 from database import db, db_url
-from flask_sqlalchemy import SQLAlchemy
 
 
 app_name = 'Python User App for LMT'
@@ -69,15 +66,24 @@ def logging_after(response):
     add_data['MY_POD_NAMESPACE'] = os.environ.get('MY_POD_NAMESPACE')
     add_data['MY_POD_IP'] = os.environ.get('MY_POD_IP')
     add_data['MY_POD_SERVICE_ACCOUNT'] = os.environ.get('MY_POD_SERVICE_ACCOUNT')
+    # list_data = json.dumps(data)
+    add_data['data'] = data
     
     logger.info(f'NODE_NAME: {NODE_NAME}')
     logger.info(f'POD_NAME: {POD_NAME}')
     logger.info(f'POD_NAMESPACE: {POD_NAMESPACE}')
     logger.info(f'POD_IP: {POD_IP}')
     logger.info(f'SERVICE_ACCOUNT: {SERVICE_ACCOUNT}')
-   
+
+    logger.info(f'Merged Data: {add_data}')
+    # json1_str = json.dumps(jsonify(data))
+    # json2_str = json.dumps(add_data)
+    # json1_dict = data
+    # json2_dict = json.loads(json2_str)
+    # json1_dict.append(json2_dict)
+    # logger.info(f'Merged Data: {json1_dict}')
     # Update the response with the modified data
-    response.set_data(jsonify(data).data)
+    response.set_data(jsonify(add_data).data)
     
     return response
 
