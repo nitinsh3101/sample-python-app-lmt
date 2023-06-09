@@ -1,0 +1,54 @@
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: python-java-ingress
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing  # external ALB will be created
+      alb.ingress.kubernetes.io/target-type: ip  # route traffic to internal pod ip directly
+  spec:
+    ingressClassName: alb
+    rules:
+      - http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-python-app-lmt
+                  port:
+                    number: 5000
+              path: /test
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-python-app-lmt
+                  port:
+                    number: 5000
+              path: /metrics        
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-python-app-lmt
+                  port:
+                    number: 5000
+              path: /health
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-java-app-lmt
+                  port:
+                    number: 8085
+              path: /actuator/health
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-python-app-lmt
+                  port:
+                    number: 5000
+              path: /user              
+            - pathType: Prefix
+              backend:
+                service:
+                  name: sample-java-app-lmt
+                  port:
+                    number: 8085
+              path: /

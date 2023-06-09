@@ -1,0 +1,28 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+    autoscaling.alpha.kubernetes.io/conditions: '[{"type":"AbleToScale","status":"True","lastTransitionTime":"2023-06-07T12:44:02Z","reason":"ReadyForNewScale","message":"recommended
+      size matches current size"},{"type":"ScalingActive","status":"True","lastTransitionTime":"2023-06-07T13:03:05Z","reason":"ValidMetricFound","message":"the
+      HPA was able to successfully calculate a replica count from cpu resource utilization
+      (percentage of request)"},{"type":"ScalingLimited","status":"False","lastTransitionTime":"2023-06-07T10:57:47Z","reason":"DesiredWithinRange","message":"the
+      desired count is within the acceptable range"}]'
+    autoscaling.alpha.kubernetes.io/current-metrics: '[{"type":"Resource","resource":{"name":"cpu","currentAverageUtilization":4,"currentAverageValue":"2m"}}]'
+  creationTimestamp: "2023-06-07T08:53:34Z"
+  name: sample-python-app-lmt
+  namespace: default
+  resourceVersion: "82734"
+  uid: d165c14b-cf98-46e1-a14c-789aad08bae0
+spec:
+  maxReplicas: 10
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: sample-python-app-lmt
+  targetCPUUtilizationPercentage: 30
+status:
+  currentCPUUtilizationPercentage: 4
+  currentReplicas: 1
+  desiredReplicas: 1
+  lastScaleTime: "2023-06-07T13:08:05Z"

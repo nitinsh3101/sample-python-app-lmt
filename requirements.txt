@@ -1,3 +1,15 @@
 flask
 appmetrics
 prometheus_client
+requests
+flask_restful
+flask_sqlalchemy
+flask_marshmallow
+flask-ext
+flask-mysql
+marshmallow-sqlalchemy
+opentelemetry-api
+opentelemetry-sdk
+opentelemetry-distro
+psycopg2-binary
+flask_cors

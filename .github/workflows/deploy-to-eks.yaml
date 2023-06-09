@@ -6,7 +6,7 @@ on:
   #   branches: [ "feature-eks-testing" ]
 
 env:
-  AWS_REGION: us-east-a                   # set this to your preferred AWS region, e.g. us-west-1
+  AWS_REGION: us-east-1                   # set this to your preferred AWS region, e.g. us-west-1
   EKS_CLUSTER: webapp                 # set this to your Amazon ECS cluster name
 
 permissions:
@@ -29,8 +29,11 @@ jobs:
         role-to-assume:  ${{ secrets.EKS_ASSUME_ROLE }}
         role-session-name: samplerolesession
         aws-region: us-east-1
-
     - name: Deploy to EKS Cluster
       run: |
-            aws eks update-kubeconfig —cluster-name ${{ env.EKS_CLUSTER }}
+            cd manifests
+            aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER }} --region us-east-1
+            kubectl delete -f deployment.yaml || true
+            kubectl apply -f deployment.yaml
+            kubectl apply -f aws/ingress.yaml
             kubectl get pods
