@@ -49,6 +49,26 @@ spec:
                   valueFrom:
                     fieldRef:
                       fieldPath: spec.serviceAccountName
+                - name: DB_USER_NAME
+                  valueFrom:
+                      secretKeyRef:
+                        name: dbsecret
+                        key: DB_USER_NAME
+                - name: DB_NAME
+                  valueFrom:
+                      secretKeyRef:
+                        name: dbsecret
+                        key: DB_NAME
+                - name: DB_PASSWORD
+                  valueFrom:
+                      secretKeyRef:
+                        name: dbsecret
+                        key: DB_PASSWORD
+                - name: DB_HOST
+                  valueFrom:
+                      secretKeyRef:
+                        name: dbsecret
+                        key: DB_HOST                        
               volumeMounts:
                 - name: log-volume
                   mountPath: /var/log
