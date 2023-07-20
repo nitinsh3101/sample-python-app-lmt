@@ -23,7 +23,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build the Docker image
       run: |
-             docker build --build-arg DB_USER_NAME=${{ secrets.DB_USER_NAME }} --build-arg DB_PASSWORD=${{ secrets.DB_PASSWORD }} --build-arg DB_NAME=${{ secrets.DB_NAME }} --build-arg DB_HOST=${{ secrets.DB_HOST }} . --file Dockerfile --tag sample-python-app-lmt:latest
+             docker build . --file Dockerfile --tag sample-python-app-lmt:latest
              docker tag sample-python-app-lmt:latest ghcr.io/cybage-devops/sample-python-app-lmt:latest
              docker push ghcr.io/cybage-devops/sample-python-app-lmt:latest
 
