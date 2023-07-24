@@ -1,1 +1,1 @@
-kubectl -n default create secret docker-registry dockerconfigjson-github-com --docker-server=ghcr.io --docker-username=tanaji-chavan --docker-password=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 --docker-email=tanajic@cybage.com
+kubectl -n default create secret docker-registry dockerconfigjson-github-com --docker-server=ghcr.io --docker-username=xxx --docker-password=xxx --docker-email=tanajic@cybage.com
