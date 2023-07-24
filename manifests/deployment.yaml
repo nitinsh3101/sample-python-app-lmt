@@ -15,8 +15,11 @@ spec:
     template:
         metadata:
           labels:
+              admission.datadoghq.com/enabled: "true"
               app: sample-python-app-lmt
               logFileName: app
+          annotations:
+            admission.datadoghq.com/python-lib.version: v1.17.1
         spec:
           containers:
             - name: sample-python-app-lmt
