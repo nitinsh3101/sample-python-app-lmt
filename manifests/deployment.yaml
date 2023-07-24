@@ -20,6 +20,7 @@ spec:
               logFileName: app
           annotations:
             admission.datadoghq.com/python-lib.version: v1.17.1
+            ad.datadoghq.com/sample-python-app-lmt.logs: '[{"source":"sample-python-app-lmt","service":"sample-python-app-lmt"}]'
         spec:
           containers:
             - name: sample-python-app-lmt
