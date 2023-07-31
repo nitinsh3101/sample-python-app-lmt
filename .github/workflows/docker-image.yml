@@ -24,6 +24,17 @@ jobs:
         account: ${{secrets.KUBESCAPE_ACCOUNT}}
         # # Optional: Scan a specific path. Default will scan the whole repository
         files: "manifests/*.yaml"
+    - name: Upload Kubescape scan results to Github Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      continue-on-error: true
+      with:
+        sarif_file: results.sarif
+
+    - name: Archive kubescape scan results
+      uses: actions/upload-artifact@v2
+      with:
+        name: kubescape
+        path: results.sarif    
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
       with:
