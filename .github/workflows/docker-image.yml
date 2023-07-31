@@ -15,6 +15,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: kubescape/github-action@main
+      continue-on-error: true
+      with:
+        format: sarif
+        outputFile: results.sarif
+        # # Optional: Specify the Kubescape cloud account ID
+        account: ${{secrets.KUBESCAPE_ACCOUNT}}
+        # # Optional: Scan a specific path. Default will scan the whole repository
+        files: "manifests/*.yaml"
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
       with:
