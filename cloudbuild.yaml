@@ -1,7 +1,7 @@
 
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sample-python-app-lmt', '.']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/sample-python-app-lmt/sample-python-app-lmt:latest', '.']
 images:
-- 'us-central1-docker.pkg.dev/$PROJECT_ID/sample-python-app-lmt'
+- 'us-central1-docker.pkg.dev/$PROJECT_ID/sample-python-app-lmt/sample-python-app-lmt'
 
