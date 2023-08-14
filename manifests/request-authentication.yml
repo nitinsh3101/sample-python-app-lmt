@@ -1,0 +1,76 @@
+# # write Istio Request Authentication Policy for sample-python-app-lmt 
+# # request-authentication.yml
+# apiVersion: security.istio.io/v1beta1
+# kind: RequestAuthentication
+# metadata:
+#   name: sample-python-app-lmt
+#   namespace: default
+# spec:
+#   selector:
+#     matchLabels:
+#       app: sample-python-app-lmt
+#   jwtRules:
+#   - issuer: "http://4.156.137.43:8080/realms/AKS"
+#     jwksUri: "http://4.156.137.43:8080/realms/AKS/protocol/openid-connect/certs"
+# ---
+# # write Istio Authorization Policy for sample-python-app-lmt
+# # authorization.yml
+# apiVersion: security.istio.io/v1beta1
+# kind: AuthorizationPolicy
+# metadata:
+#   name: sample-python-app-lmt
+#   namespace: default
+# spec:
+
+#   selector:
+#     matchLabels:
+#       app: sample-python-app-lmt
+#   action: ALLOW
+#   rules:
+#   - from:
+#     - source:
+#         requestPrincipals: ["*"]
+#   - to:
+#     - operation:
+#         methods: ["GET"]
+#         paths: ["/test"]
+#   - to:
+#     - operation:
+#         methods: ["GET"]
+#         paths: ["/user/list"]
+# ---
+# # write Istio Virtual Service for sample-python-app-lmt
+# # virtual-service.yml
+# # apiVersion: networking.istio.io/v1alpha3
+# # kind: VirtualService
+# # metadata:
+# #   name: sample-python-app-lmt
+# #   namespace: default
+# # spec:
+# #   hosts:
+# #   - sample-python-app.lmt.com
+# #   gateways:
+# #   - lmt-gateway
+# #   http:
+# #   - match:
+# #     - uri:
+# #         prefix: /
+# #     route:
+# #     - destination:
+# #         host: sample-python-app-lmt
+# #         port:
+# #           number: 5000
+# ---
+# # write Istio Destination Rule for sample-python-app-lmt
+# # destination-rule.yml
+# # apiVersion: networking.istio.io/v1alpha3
+# # kind: DestinationRule
+# # metadata:
+# #   name: sample-python-app-lmt
+# #   namespace: default
+# # spec:
+# #   host: sample-python-app-lmt
+# #   trafficPolicy:
+# #     tls:
+# #       mode: ISTIO_MUTUAL  
+
