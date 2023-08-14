@@ -53,7 +53,7 @@ resource "google_cloud_run_service" "sample-python-app-lmt" {
   template {
     spec {
       containers {
-        image = "gcr.io/sample-python-app-lmt/sample-python-app-lmt:latest"
+        image = "us-central1-docker.pkg.dev/sample-python-app-lmt:latest"
       }
     }
   }
